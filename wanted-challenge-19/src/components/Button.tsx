@@ -1,11 +1,11 @@
 type ButtonType = {
   name: string;
-  onPressed: (arg: any) => void;
+  onClick: (value: any) => void;
 };
 
-function Button({ name, onPressed }: ButtonType) {
+function Button({ name, onClick }: ButtonType) {
   return (
-    <button className="container" onClick={onPressed}>
+    <button className="container" onClick={onClick}>
       {name}
     </button>
   );

@@ -1,54 +1,46 @@
-import Box from "./components/List/Box";
 import "./style.scss";
+import Box from "./components/List/Box";
 import Button from "./components/Button";
-import React, { useEffect, useState } from "react";
 import Input from "./components/Input";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addItem,
+  deleteItem,
+  listValues,
+  lengthValue,
+} from "./store/rootReducer";
 
 function App() {
-  const [list, setList] = useState<string[]>([]);
-  const [content, setContent] = useState("");
-  function addItem(content: string) {
-    setList((prev) => [...prev, content]);
-    onChange("");
-  }
-
-  function deleteItem(idx: number) {
-    setList(
-      list.filter((value, index) => {
-        if (index !== idx) {
-          return value;
-        }
-      })
-    );
-  }
-
-  function onChange(newContent: string) {
-    setContent(() => newContent);
-  }
-
-  useEffect(() => {
-    console.log(list);
-  }, []);
+  const list = useSelector(listValues);
+  const length = useSelector(lengthValue);
+  const dispatch = useDispatch();
 
   return (
-    <div className="App">
-      <section className="flex">
-        <Input content={content} onChange={onChange} />
-        <Button name="Add" onPressed={() => addItem(content)} />
+    <div className="App container">
+      <section className="flex marginVertical">
+        <Input />
+        <Button name="Add" onClick={() => dispatch(addItem())} />
       </section>
       <section>
-        {list.length === 0 ? (
+        {length === 0 ? (
           <div></div>
         ) : (
           <>
             {list.map((content: string, index: number): JSX.Element => {
               return (
-                <div key={index} className="flex">
-                  <Box content={content} />
-                  <Button name="Delete" onPressed={() => deleteItem(index)} />
-                </div>
+                <>
+                  <hr></hr>
+                  <div key={index} className="flex marginVertical line">
+                    <Box content={content} />
+                    <Button
+                      name="Delete"
+                      onClick={() => dispatch(deleteItem(index))}
+                    />
+                  </div>
+                </>
               );
             })}
+            <hr></hr>
           </>
         )}
       </section>

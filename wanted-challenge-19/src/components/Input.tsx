@@ -1,9 +1,15 @@
-type InputContent = {
-  content: string;
-  onChange: (value: string) => void;
-};
+import { useDispatch, useSelector } from "react-redux";
+import { onChange } from "../store/rootReducer";
+import { contentValue } from "../store/rootReducer";
 
-function Input({ content, onChange }: InputContent) {
+// type InputContent = {
+//   content: string;
+//   onChange: (value: string) => void;
+// };
+
+function Input() {
+  const content = useSelector(contentValue);
+  const dispatch = useDispatch();
   return (
     <div className="container">
       <input
@@ -11,7 +17,7 @@ function Input({ content, onChange }: InputContent) {
         name="listMaker"
         id="listMaker"
         placeholder="Input"
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => dispatch(onChange(e.target.value))}
         value={content}
       />
     </div>
